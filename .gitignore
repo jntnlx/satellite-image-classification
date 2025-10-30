@@ -19,6 +19,7 @@ results/models/*
 # Custom
 local/*
 nbconvert/*
+prototyping/*
 
 # Jupyter
 notebooks/.ipynb_checkpoints
