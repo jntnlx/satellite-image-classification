@@ -20,9 +20,10 @@ results/models/*
 local/*
 nbconvert/*
 prototyping/*
+bfg-1.14.0.jar
 
 # Jupyter
-notebooks/.ipynb_checkpoints/*
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
