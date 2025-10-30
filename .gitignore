@@ -20,6 +20,9 @@ results/models/*
 local/*
 nbconvert/*
 
+# Jupyter
+notebooks/.ipynb_checkpoints
+
 # IDE
 .vscode/
 .cursor/
