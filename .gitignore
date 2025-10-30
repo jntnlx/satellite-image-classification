@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# Data
+*.h5
+*.hdf5
+data/processed/*
+data/raw/*
+
+# Model Weights
+results/models/*
+
+# Custom
+local/*
+nbconvert/*
+
+# IDE
+.vscode/
+.cursor/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+results/runs/
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!results/models/.gitkeep
