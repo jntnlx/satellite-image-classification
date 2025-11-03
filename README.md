@@ -30,34 +30,12 @@ After training, the best checkpoint of the smallest available ResNet model, i.e.
 
 ## Technique (Selection)
 
-- **Transfer Learning:** **Finetuning modified ResNet18**
+- **Transfer Learning:** **Modified ResNet18 Finetune**
 - **Learning Rate Scheduling** (**OneCycleLR**)
 - **Mixed Precision Training**
 - **Label Smoothing**
 - **Data Augmentation**
 - **Physics-Informed Data Augmentation** i.e. **Custom Hue Transform**
-
-## Directory tree
-
-```
-.
-├── data
-│   └── samples
-│   	└── eurosat
-│   		└── *.jpg          		# Sample selection for visualization
-├── notebooks
-│   ├── data_processing.ipynb  		# Data pre-processing
-│   └── train_eval.ipynb	   		# Complete training and model eval implementation
-├── references                      
-│   └── eurosat_helber_etal.pdf		# EuroSAT (Helber 2019)
-├── results
-│   └── figures
-│		├── loss_curves.png 		# Training and Validation loss
-│		├── lr_schedule.png			# Backbone/Classifier learning rate
-│   	└── confusion_matrices.png	# Checkpoint eval via confusion matrices
-├── README.md
-└── .gitignore
-```
 
 ## Quick Start
 
