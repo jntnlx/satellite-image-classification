@@ -58,7 +58,7 @@ python -m pip install torchinfo torchviz  # Model visualization libraries
 python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 
 # Register venv as Jupyter kernel
-python -m ipykernel install --user --name=venv --display-name="Python (satellite-segmentation)"
+python -m ipykernel install --user --name=venv --display-name="NAME"
 
 # if relevant: initialize your (general) general conda working environment
 conda activate my_conda_env
