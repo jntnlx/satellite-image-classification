@@ -1,6 +1,6 @@
 # Satellite Image Classification
 
-This repo implements ResNet classification tasks training on Sentinel-2 satellite image data available through the EuroSAT dataset using a selection of key techniques from the recent literature in the context of analysing land cover analysis.
+This repo implements ResNet classification training on Sentinel-2 satellite image data using a selection of key techniques from the recent literature in the context of analyzing land cover analysis. Image data is available through the EuroSAT dataset.
 
 The smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the significantly larger ResNet50 model cited in the original EuroSAT paper (98.57%) while using ~3x fewer parameters.
 
@@ -37,15 +37,15 @@ The smallest available ResNet model, i.e. ResNet18, is able to reach an average 
 - Low resolution input: Removed initial MaxPool layer
 
 **Technique Selection**
-- **Discriminative Fine-Tuning**: Different respective learning rates for backbone (generic features) and classifier (new task) 
+- **Discriminative Finetuning**: Different respective learning rates for backbone (generic features) and classifier (new task) 
 - **Learning Rate Scheduling**: OneCycleLR (Eliminates manual learning rate tuning)
-- **Mixed Precision Training**: Training speedup at negligble performance degradation
+- **Mixed Precision Training**: Training speedup at negligible performance degradation
 - **Label Smoothing**: Regularization
 
 **Augmentation**
 - Standard transformations approximating expected data variation in satellite imagery, i.e. flip and rotation
 - Capturing lighting scenarios due to atmospheric effects via ColorJitter
-- **Atmospheric Haze**: Modelling of blueish color tint augmentation (No atmospheric correction according to EuroSAT publication)
+- **Atmospheric Haze**: Modeling of blueish color tint augmentation (No atmospheric correction according to EuroSAT publication)
 
 ## Repo tree
 
@@ -97,7 +97,7 @@ conda activate my_conda_env
 
 ## References
 
-Relevant publications are collected in the directory.
+Relevant publications are collected in the `./references` directory.
 
 ### Data
 
@@ -108,8 +108,4 @@ Relevant publications are collected in the directory.
 
 ### Techniques
 
-See `./references` directory. 
-
-
-
-
+See `./references` directory.
