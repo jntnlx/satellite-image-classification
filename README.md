@@ -4,6 +4,8 @@ This repo implements ResNet classification training on Sentinel-2 satellite imag
 
 The smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the significantly larger ResNet50 model cited in the original EuroSAT paper (98.57%) while using ~3x fewer parameters.
 
+![training_samples](results/transformed_training_samples.png)
+
 ## Results
 
 **Accuracy on Test Set Split: ~98%**
