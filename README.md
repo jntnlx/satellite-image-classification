@@ -1,12 +1,18 @@
 # Satellite Image Classification
 
-This repo implements training on Sentinel-2 satellite image classification tasks using a selection of key techniques from the recent literature. The image data is obtained via the publically available EuroSAT dataset. 
+This repo implements ResNet classification tasks training on Sentinel-2 satellite image data available through the EuroSAT dataset using a selection of key techniques from the recent literature in the context of analysing land cover analysis.
 
-After training, the best checkpoint of the smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the large ResNet50 model cited in the original EuroSAT paper (98.57%) while using significantly fewer parameters.
+The smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the significantly larger ResNet50 model cited in the original EuroSAT paper (98.57%) while using ~3x fewer parameters.
 
 ## Results
 
+**Accuracy on Test Set Split: ~98%**
+
+### Confusion Matrices
+
 ![cm](results/figures/confusion_matrices.png)
+
+### Training Curves
 
 ![loss_curves](results/figures/loss_curves.png)
 
@@ -16,26 +22,51 @@ After training, the best checkpoint of the smallest available ResNet model, i.e.
 
 **Classification Report**: Best Model Checkpoint (Scikit-Learn)
 
-|                 | precision     | recall      | f1-score      | support       |
-|-----------------|----------|----------|----------|----------|
-| accuracy            | -   | -        | **0.9802**        | 4050        |
-| macro avg   | 0.9799        | 0.9794   | 0.9797   | 4050        |
-| weighted avg        | **0.9803**        | 0.9802   | 0.9802   | 4050        |
+|                      | precision | recall | f1-score | support |
+|----------------------|-----------|--------|----------|---------|
+| **accuracy**         | -         | -      | **0.9802** | 4050    |
+| **macro avg**        | 0.9799    | 0.9794 | 0.9797   | 4050    |
+| **weighted avg**     | **0.9803**| 0.9802 | 0.9802   | 4050    |
 
-                               
+## Technical Approach
 
-                                           
-                              
-                           
+**Architecture**
+- Base Model: ResNet18 (Trained on 224x224 ImageNet images)
+- Training on 64x64 EuroSAT images
+- Spatial resolution preservation attempt by using 3x3 kernel with stride 1
+- Low resolution input: Removed initial MaxPool layer
 
-## Technique (Selection)
+**Technique Selection**
+- **Discriminative Fine-Tuning**: Different respective learning rates for backbone (generic features) and classifier (new task) 
+- **Learning Rate Scheduling**: OneCycleLR (Eliminates manual learning rate tuning)
+- **Mixed Precision Training**: Training speedup at negligble performance degradation
+- **Label Smoothing**: Regularization
 
-- **Transfer Learning:** **Modified ResNet18 Finetune**
-- **Learning Rate Scheduling** (**OneCycleLR**)
-- **Mixed Precision Training**
-- **Label Smoothing**
-- **Data Augmentation**
-- **Physics-Informed Data Augmentation** i.e. **Custom Hue Transform**
+**Augmentation**
+- Standard transformations approximating expected data variation in satellite imagery, i.e. flip and rotation
+- Capturing lighting scenarios due to atmospheric effects via ColorJitter
+- **Atmospheric Haze**: Modelling of blueish color tint augmentation (No atmospheric correction according to EuroSAT publication)
+
+## Repo tree
+
+```
+.                      
+├── data/
+│   └── samples/eurosat/               # Sample images (one per class)
+├── notebooks/
+│   ├── data_processing.ipynb          # Pre-Processing: Data preparation
+│   └── train_eval.ipynb               # Main: Complete training loop, data processing and evaluation
+├── results/
+│   └── figures/
+├── references/
+│   ├── eurosat_helber_etal.pdf        # EuroSAT paper
+│   ├── sentinel-2-drusch-etal.pdf     # Sentinel-2 mission specifications
+│   ├── general/                       # General
+│   ├── specific/                      # Implementation-specific
+│   └── misc/                          # Background
+├── .gitignore
+└── README.md 
+```
 
 ## Quick Start
 
@@ -66,5 +97,19 @@ conda activate my_conda_env
 
 ## References
 
-EuroSAT: A novel dataset and deep learning benchmark for land use and land cover classification. Patrick Helber, Benjamin Bischke, Andreas Dengel, Damian Borth. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 2019
+Relevant publications are collected in the directory.
+
+### Data
+
+- [EuroSAT GitHub Repository](https://github.com/phelber/EuroSAT)
+
+- **Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019).** EuroSAT: A Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover Classification. *IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing*, 12(7), 2217-2226.
+- **Drusch, M., et al. (2012).** Sentinel-2: ESA's Optical High-Resolution Mission for GMES Operational Services. *Remote Sensing of Environment*, 120, 25-36.
+
+### Techniques
+
+See `./references` directory. 
+
+
+
 
