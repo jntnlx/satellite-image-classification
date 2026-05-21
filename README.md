@@ -18,8 +18,6 @@ The smallest available ResNet model, i.e. ResNet18, is able to reach an average 
 
 ![loss_curves](results/figures/loss_curves.png)
 
-![lr_schedule](results/figures/lr_schedule.png)
-
 ---
 
 **Classification Report**: Best Model Checkpoint (Scikit-Learn)
