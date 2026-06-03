@@ -1,14 +1,18 @@
 # Satellite Image Classification
 
-This repo implements ResNet classification training on Sentinel-2 satellite image data using a selection of key techniques from the recent literature in the context of analyzing land cover analysis. Image data is available through the EuroSAT dataset.
-
-The smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the significantly larger ResNet50 model cited in the original EuroSAT paper (98.57%) while using ~3x fewer parameters.
-
 ![training_samples](results/transformed_training_samples.png)
+
+Implementation of modified ResNet model classification task training on Sentinel-2 satellite images using a selection of key techniques from the recent literature.  
+
+Improved classifiaction performance is relevant in the context of land cover analysis. The employed training data is openly available as the EuroSAT dataset.
+
+The smallest available ResNet model, i.e. ResNet18, is able to reach an average precision of ~98%. This result closely approaches the performance of the significantly larger ResNet50 model variant cited in the original publication while using ~3x fewer parameters.
 
 ## Results
 
-**Accuracy on Test Set Split: ~98%**
+Final ResNet18 accuracy on *test* split: **0.9803**
+
+Reported ResNet50 accuracy: **0.9857** (Helber etal, 2019)
 
 ### Confusion Matrices
 
@@ -18,36 +22,38 @@ The smallest available ResNet model, i.e. ResNet18, is able to reach an average 
 
 ![loss_curves](results/figures/loss_curves.png)
 
----
-
-**Classification Report**: Best Model Checkpoint (Scikit-Learn)
-
 |                      | precision | recall | f1-score | support |
 |----------------------|-----------|--------|----------|---------|
 | **accuracy**         | -         | -      | **0.9802** | 4050    |
 | **macro avg**        | 0.9799    | 0.9794 | 0.9797   | 4050    |
 | **weighted avg**     | **0.9803**| 0.9802 | 0.9802   | 4050    |
 
+**Table**: *Classification Report* (best model checkpoint)
+
+---
+
 ## Technical Approach
 
 **Architecture**
 - Base Model: ResNet18 (Trained on 224x224 ImageNet images)
-- Training on 64x64 EuroSAT images
-- Spatial resolution preservation attempt by using 3x3 kernel with stride 1
-- Low resolution input: Removed initial MaxPool layer
+- Training Data: 64x64 EuroSAT images
+- Low resolution input: Initial MaxPool layer removed
+- Spatial resolution preservation: 3x3 kernel (Stride 1)
 
-**Technique Selection**
-- **Discriminative Finetuning**: Different respective learning rates for backbone (generic features) and classifier (new task) 
-- **Learning Rate Scheduling**: OneCycleLR (Eliminates manual learning rate tuning)
-- **Mixed Precision Training**: Training speedup at negligible performance degradation
-- **Label Smoothing**: Regularization
+**Training Technique Selection**
+- *Discriminative Finetuning*: Different learning rates for:
+    - Backbone: Generic features known &rarr; Lower LR
+    - Classifier: Learns new task &rarr; Higher LR
+- *Learning Rate Scheduling*: OneCycleLR &rarr; Eliminates manual tuning
+- *Mixed Precision Training*: Better performance (operation specific dtypes)
+- *Label Smoothing*: Regularization
 
-**Augmentation**
-- Standard transformations approximating expected data variation in satellite imagery, i.e. flip and rotation
-- Capturing lighting scenarios due to atmospheric effects via ColorJitter
-- **Atmospheric Haze**: Modeling of blueish color tint augmentation (No atmospheric correction according to EuroSAT publication)
+**Augmentation Approach**
+- Approximation of variation in satellite image data &rarr; Spatial transformations
+- Capturing lighting variaton induced by atmospheric effects &rarr; Color jitter
+- *Atmospheric Haze*: Augemntation modeling of blueish color tint observation &rarr; Present due to missing atmospheric correction (cf. EuroSAT paper)
 
-## Repo tree
+## Directory tree
 
 ```
 .                      
@@ -71,35 +77,35 @@ The smallest available ResNet model, i.e. ResNet18, is able to reach an average 
 ## Quick Start
 
 ```bash
+# Clone repository
+git clone https://github.com/jntnlx/satellite-image-classification.git
+
 # Verifiy GPU driver and CUDA (WSL)
 nvidia-smi
 nvcc --version  # e.g. 11.8 (if newer, modify PyTorch installation command)
 
-# Setup Python virtual environment
-python -m venv venv
-source venv/bin/activate  # Linux/WSL
+# Setup Python virtual environment via mamba/conda
+mamba env create -n venv_name -f environment.yml
 
-# Minimal dependencies with GPU/CUDA availability (Linux / WSL2)
-python -m pip install tensorflow[and-cuda] tensorflow-datasets pillow numpy matplotlib seaborn scikit-learn tqdm
-python -m pip install ipykernel  # Jupyter kernel support for venv/conda
-python -m pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118
-python -m pip install torchinfo torchviz  # Model visualization libraries
+# Activate
+mamba activate venv_name
+
+# Minimal dependencies with GPU/CUDA availability (tested on Linux/WSL2)
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Verify GPU setup
 python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 
-# Register venv as Jupyter kernel
-python -m ipykernel install --user --name=venv --display-name="NAME"
-
-# if relevant: initialize your (general) general conda working environment
-conda activate my_conda_env
+# Register Jupyter kernel
+python -m ipykernel install --user --name venv_name --display-name "VENV_NAME"
 ```
 
 ## References
 
 Relevant publications are collected in the `./references` directory.
 
-### Data
+### Satellite Data Source
 
 - [EuroSAT GitHub Repository](https://github.com/phelber/EuroSAT)
 
@@ -108,4 +114,4 @@ Relevant publications are collected in the `./references` directory.
 
 ### Techniques
 
-See `./references` directory.
+For more details see `./references` directory.
