@@ -79,26 +79,24 @@ Reported ResNet50 accuracy: **0.9857** (Helber etal, 2019)
 ```bash
 # Clone repository
 git clone https://github.com/jntnlx/satellite-image-classification.git
+cd satellite-image-classification
 
-# Verifiy GPU driver and CUDA (WSL)
+# Verify GPU driver version (i.e. supports CUDA 12.4+)
 nvidia-smi
-nvcc --version  # e.g. 11.8 (if newer, modify PyTorch installation command)
 
-# Setup Python virtual environment via mamba/conda
-mamba env create -n venv_name -f environment.yml
+# Virtual env setup via Conda/Mamba (isolated CUDA 12.4 runtime)
+mamba clean --all -y  # Optional package cache clean-up
+mamba env create --channel-priority flexible -f environment.yml
+mamba activate eurosat-resnet  # Activate
 
-# Activate
-mamba activate venv_name
-
-# Minimal dependencies with GPU/CUDA availability (tested on Linux/WSL2)
-python -m pip install --upgrade pip
+# Install remaining diagnostic/visualization packages
 python -m pip install -r requirements.txt
 
-# Verify GPU setup
-python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+# Verify GPU setup is working
+python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()} ({torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"No GPU\"})')"
 
 # Register Jupyter kernel
-python -m ipykernel install --user --name venv_name --display-name "VENV_NAME"
+python -m ipykernel install --user --name eurosat-resnet --display-name "eurosat-resnet"
 ```
 
 ## References
