@@ -70,7 +70,8 @@ Reported ResNet50 accuracy: **0.9857** (Helber etal, 2019)
 │   ├── general/                       # General
 │   ├── specific/                      # Implementation-specific
 │   └── misc/                          # Background
-├── .gitignore
+├── environment.yml
+├── requirements.txt
 └── README.md 
 ```
 
