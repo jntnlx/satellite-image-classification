@@ -70,6 +70,10 @@ Reported ResNet50 accuracy: **0.9857** (Helber etal, 2019)
 │   ├── general/                       # General
 │   ├── specific/                      # Implementation-specific
 │   └── misc/                          # Background
+├── src/
+│   ├── __init__.py
+│   ├── models.py
+│   └── utils.py
 ├── environment.yml
 ├── requirements.txt
 └── README.md 
@@ -102,7 +106,7 @@ python -m ipykernel install --user --name eurosat-resnet --display-name "eurosat
 
 ## References
 
-Relevant publications are collected in the `./references` directory.
+Relevant reference publications are collected in the `./references` directory.
 
 ### Satellite Data Source
 
@@ -110,7 +114,3 @@ Relevant publications are collected in the `./references` directory.
 
 - **Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019).** EuroSAT: A Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover Classification. *IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing*, 12(7), 2217-2226.
 - **Drusch, M., et al. (2012).** Sentinel-2: ESA's Optical High-Resolution Mission for GMES Operational Services. *Remote Sensing of Environment*, 120, 25-36.
-
-### Techniques
-
-For more details see `./references` directory.
