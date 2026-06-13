@@ -60,8 +60,8 @@ Reported ResNet50 accuracy: **0.9857** (Helber etal, 2019)
 ├── data/
 │   └── samples/eurosat/               # Sample images (one per class)
 ├── notebooks/
-│   ├── data_processing.ipynb          # Pre-Processing: Data preparation
-│   └── train_eval.ipynb               # Main: Complete training loop, data processing and evaluation
+│   ├── data.ipynb                     # Data preparation
+│   └── train_eval.ipynb               # Complete training loop, data processing and evaluation
 ├── results/
 │   └── figures/
 ├── references/

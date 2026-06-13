@@ -15,4 +15,7 @@ dependencies:
   - graphviz
   - ipykernel
   - jupyter
+  - tqdm
+  - requests
+  - pandas
   - pip
